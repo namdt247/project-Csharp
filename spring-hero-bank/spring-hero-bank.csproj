@@ -113,8 +113,9 @@
         <Compile Include="Model\GuestModel.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="View\adminMenu.cs" />
+        <Compile Include="View\AdminMenu.cs" />
         <Compile Include="View\GeneratorMenu.cs" />
+        <Compile Include="View\GuestMenu.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

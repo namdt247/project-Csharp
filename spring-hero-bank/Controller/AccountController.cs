@@ -51,12 +51,12 @@ namespace spring_hero_bank.Controller
                 var cnn = ConnectionHelpers.GetConnection();
                 cnn.Open();
                 var strGetAccount =
-                    $"select accountNumber from accounts where accountNumber = {account.AccountNumber}";
+                    $"select accountNumber from accounts where accountNumber = '{account.AccountNumber}'";
                 var cmdGetAccountNumber = new MySqlCommand(strGetAccount, cnn);
                 var accountReader = cmdGetAccountNumber.ExecuteReader();
                 accountReader.Close();
                 var strGetUsername =
-                    $"select userName from accounts where userName = {account.Username}";
+                    $"select userName from accounts where userName = '{account.Username}'";
                 var cmdGetUsername = new MySqlCommand(strGetUsername, cnn);
                 var usernameReader = cmdGetUsername.ExecuteReader();
                 usernameReader.Close();
