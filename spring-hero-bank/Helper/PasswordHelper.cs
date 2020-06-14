@@ -36,5 +36,11 @@ namespace spring_hero_bank.Helper
         {
             return MD5Hash(password + accountSalt) == accountPasswordHash;
         }
+
+        public int GenerateAccountNumber()
+        {
+            Random randomAccountNumber = new Random();
+            return randomAccountNumber.Next(100000000, 999999999);
+        }
     }
 }

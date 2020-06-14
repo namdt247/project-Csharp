@@ -2,7 +2,7 @@ using System;
 
 namespace spring_hero_bank.Entity
 {
-    public class Transaction
+    public class SHBTransaction
     {
         public string TransactionCode { get; set; }
         public string SenderAccountNumber { get; set; }
