@@ -7,6 +7,7 @@ namespace spring_hero_bank.Model
 {
     public class AccountModel
     {
+        private PasswordHelper _passwordHelper = new PasswordHelper();
         public bool Save(Account account)
         {
             try
@@ -39,7 +40,7 @@ namespace spring_hero_bank.Model
             var cnn = ConnectionHelpers.GetConnection();
             cnn.Open();
             var stringCmdGetAccount = $"select * from accounts where username = '{username}' and " +
-                $"status = {(int)AccountSHBStatus.ACTIVE}";
+                $"status = {(int)AccountStatus.ACTIVE}";
             var cmdGetAccount = new MySqlCommand(stringCmdGetAccount, cnn);
             var readerGetAccount = cmdGetAccount.ExecuteReader();
             if (readerGetAccount.Read())
@@ -54,8 +55,8 @@ namespace spring_hero_bank.Model
                     PhoneNumber = readerGetAccount.GetString("phoneNumber"),
                     Salt = readerGetAccount.GetString("salt"),
                     FullName = readerGetAccount.GetString("fullName"),
-                    Role = (AccountSHBRole) readerGetAccount.GetInt32("role"),
-                    Status = (AccountSHBStatus) readerGetAccount.GetInt32("status")
+                    Role = (AccountRole) readerGetAccount.GetInt32("role"),
+                    Status = (AccountStatus) readerGetAccount.GetInt32("status")
                 };
             }
             cnn.Close();
