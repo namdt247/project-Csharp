@@ -101,10 +101,10 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Controller\AccountController.cs" />
         <Compile Include="Controller\AdminController.cs" />
         <Compile Include="Controller\GuestController.cs" />
         <Compile Include="Entity\Account.cs" />
-        <Compile Include="Entity\Transaction.cs" />
         <Compile Include="Helper\ConnectionHelpers.cs" />
         <Compile Include="Helper\PasswordHelper.cs" />
         <Compile Include="Model\AccountModel.cs" />
