@@ -1,4 +1,5 @@
 using System;
+using MySql.Data.MySqlClient;
 using spring_hero_bank.Entity;
 using spring_hero_bank.Helper;
 using spring_hero_bank.Model;
@@ -14,7 +15,7 @@ namespace spring_hero_bank.Controller
         {
             try
             {
-                Console.WriteLine("Đăng ký tài ");
+                Console.WriteLine("-- Đăng ký tài khoản --");
                 Console.WriteLine("--------------------------------");
                 Console.WriteLine("Vui lòng nhập username của bạn: ");
                 var username = Console.ReadLine();
@@ -43,12 +44,40 @@ namespace spring_hero_bank.Controller
                     PhoneNumber = phoneNumber,
                     Salt = salt,
                     FullName = fullName,
-                    Role = AccountSHBRole.GUEST,
-                    Status = AccountSHBStatus.ACTIVE,
+                    Role = AccountRole.GUEST,
+                    Status = AccountStatus.ACTIVE,
                 };
-
-                _accountModel.Save(account);
-                return true;
+                
+                var cnn = ConnectionHelpers.GetConnection();
+                cnn.Open();
+                var strGetAccount =
+                    $"select accountNumber from accounts where accountNumber = '{account.AccountNumber}'";
+                var cmdGetAccountNumber = new MySqlCommand(strGetAccount, cnn);
+                var accountReader = cmdGetAccountNumber.ExecuteReader();
+                accountReader.Close();
+                var strGetUsername =
+                    $"select userName from accounts where userName = '{account.Username}'";
+                var cmdGetUsername = new MySqlCommand(strGetUsername, cnn);
+                var usernameReader = cmdGetUsername.ExecuteReader();
+                usernameReader.Close();
+                while (true)
+                {
+                    if (accountReader.Read())
+                    {
+                        account.AccountNumber = firstAccountNumber + _passwordHelper.GenerateAccountNumber();
+                    } 
+                    else if (usernameReader.Read())
+                    {
+                        Console.WriteLine("Vui lòng nhập username của bạn: ");
+                        account.Username = Console.ReadLine();
+                    }
+                    if (!usernameReader.Read() && !accountReader.Read())
+                    {
+                        _accountModel.Save(account);
+                        return true;
+                    }
+                }
+                
             }
             catch (Exception e)
             {
