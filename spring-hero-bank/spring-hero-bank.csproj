@@ -110,6 +110,7 @@
         <Compile Include="Helper\PasswordHelper.cs" />
         <Compile Include="Model\AccountModel.cs" />
         <Compile Include="Model\AdminModel.cs" />
+        <Compile Include="Model\CheckUser.cs" />
         <Compile Include="Model\GuestModel.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

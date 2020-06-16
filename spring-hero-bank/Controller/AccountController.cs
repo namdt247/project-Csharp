@@ -10,7 +10,7 @@ namespace spring_hero_bank.Controller
     {
         private PasswordHelper _passwordHelper = new PasswordHelper();
         private AccountModel _accountModel = new AccountModel();
-        
+        private CheckUser _checkUsernameModel = new CheckUser();
         public bool Register()
         {
             try
@@ -33,46 +33,34 @@ namespace spring_hero_bank.Controller
 
                 var firstAccountNumber = "9704";
                 var accountNumber = firstAccountNumber + _passwordHelper.GenerateAccountNumber();
-            
-                var account = new Account()
-                {
-                    AccountNumber = accountNumber,
-                    Username = username,
-                    Balance = 0,
-                    PasswordHash = passwordHash,
-                    Email = email,
-                    PhoneNumber = phoneNumber,
-                    Salt = salt,
-                    FullName = fullName,
-                    Role = AccountRole.GUEST,
-                    Status = AccountStatus.ACTIVE,
-                };
                 
-                var cnn = ConnectionHelpers.GetConnection();
-                cnn.Open();
-                var strGetAccount =
-                    $"select accountNumber from accounts where accountNumber = '{account.AccountNumber}'";
-                var cmdGetAccountNumber = new MySqlCommand(strGetAccount, cnn);
-                var accountReader = cmdGetAccountNumber.ExecuteReader();
-                accountReader.Close();
-                var strGetUsername =
-                    $"select userName from accounts where userName = '{account.Username}'";
-                var cmdGetUsername = new MySqlCommand(strGetUsername, cnn);
-                var usernameReader = cmdGetUsername.ExecuteReader();
-                usernameReader.Close();
                 while (true)
                 {
-                    if (accountReader.Read())
+                    var checkUsername = _checkUsernameModel.ValidateUsername(username);
+                    var checkAccount = _checkUsernameModel.ValidateAccountNumber(accountNumber);
+                    if (checkUsername != null)
                     {
-                        account.AccountNumber = firstAccountNumber + _passwordHelper.GenerateAccountNumber();
+                        username = checkUsername;
                     } 
-                    else if (usernameReader.Read())
+                    if (checkAccount != null)
                     {
-                        Console.WriteLine("Vui lòng nhập username của bạn: ");
-                        account.Username = Console.ReadLine();
+                        accountNumber = checkAccount;
                     }
-                    if (!usernameReader.Read() && !accountReader.Read())
+                    if (checkUsername == null && checkAccount == null)
                     {
+                        var account = new Account()
+                        {
+                            AccountNumber = accountNumber,
+                            Username = username,
+                            Balance = 0,
+                            PasswordHash = passwordHash,
+                            Email = email,
+                            PhoneNumber = phoneNumber,
+                            Salt = salt,
+                            FullName = fullName,
+                            Role = AccountRole.GUEST,
+                            Status = AccountStatus.ACTIVE,
+                        };
                         _accountModel.Save(account);
                         return true;
                     }
