@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using spring_hero_bank.Controller;
 using spring_hero_bank.Entity;
 
@@ -11,6 +12,7 @@ namespace spring_hero_bank.View
         {
             var controller = new AccountController();
             var account = new Account();
+            Console.OutputEncoding = Encoding.UTF8;
             while (true)
             {
                 Console.Clear();
