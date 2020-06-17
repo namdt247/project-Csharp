@@ -12,8 +12,9 @@ namespace spring_hero_bank.Entity
         public string FullName { get; set; }
         public string Email { get; set; }
         public AccountStatus Status { get; set; } // 1. active || 2. lock || -1. delete
-    }
 
+    }
+    
     public enum AccountRole
     {
         GUEST = 1, ADMIN = 2

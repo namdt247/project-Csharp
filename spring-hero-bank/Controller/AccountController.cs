@@ -1,8 +1,9 @@
 using System;
-using MySql.Data.MySqlClient;
+
 using spring_hero_bank.Entity;
 using spring_hero_bank.Helper;
 using spring_hero_bank.Model;
+using spring_hero_bank.View;
 
 namespace spring_hero_bank.Controller
 {
@@ -85,9 +86,17 @@ namespace spring_hero_bank.Controller
             Account account = _accountModel.GetActiveAccountByUserName(username);
             if (account != null && _passwordHelper.ComparePassword(password, account.Salt, account.PasswordHash))
             {
+                if ((int)account.Role == 1)
+                {
+                    GuestMenu.StartGuestMenu();
+                }
+                if ((int)account.Role == 2)
+                {
+                    AdminMenu.StartAdminMenu();
+                }
                 return account;
             }
-
+            
             return null;
         }
     }

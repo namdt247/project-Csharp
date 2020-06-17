@@ -1,13 +1,27 @@
 using System;
+using MySql.Data.MySqlClient;
+using spring_hero_bank.Entity;
+using spring_hero_bank.Helper;
 
 namespace spring_hero_bank.Controller
 {
     public class AdminController
     {
         //1. danh sách người dùng
-        public void ListUser()
+        public String ListUser()
         {
-            Console.WriteLine("1");
+            var cnn = ConnectionHelpers.GetConnection();
+            cnn.Open();
+            var stringCmdGetAccount = $"select * from accounts";
+            var cmdGetAccount = new MySqlCommand(stringCmdGetAccount, cnn);
+            var readerGetAccount = cmdGetAccount.ExecuteReader();
+            var renderAccount = "";
+            foreach (var account in readerGetAccount)
+            {
+                Console.WriteLine("132423");
+            }
+            cnn.Close();
+            return "Số tài khoản";
         }
         //2. Danh sách lịch sử giao dịch.
         public void ListHistory()
