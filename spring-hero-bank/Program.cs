@@ -6,7 +6,7 @@ namespace spring_hero_bank
     {
         public static void Main(string[] args)
         {
-            GeneratorMenu.GenerateMenu();
+            
         }
     }
 }
