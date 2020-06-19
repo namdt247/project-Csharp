@@ -18,10 +18,9 @@ namespace spring_hero_bank.Entity
         {
             return $"Account : Role = {(AccountRole) Role}";
         }
+
     }
     
-    
-
     public enum AccountRole
     {
         GUEST = 1, ADMIN = 2

@@ -64,7 +64,6 @@ namespace spring_hero_bank.View
                         Console.WriteLine("Hẹn gặp lại.");
                         break;
                 }
-
                 Console.ReadLine();
                 if (choice == 11)
                 {
