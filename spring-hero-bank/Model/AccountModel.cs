@@ -2,6 +2,7 @@ using System;
 using MySql.Data.MySqlClient;
 using spring_hero_bank.Entity;
 using spring_hero_bank.Helper;
+using spring_hero_bank.View;
 
 namespace spring_hero_bank.Model
 {
@@ -14,22 +15,25 @@ namespace spring_hero_bank.Model
             {
                 var cnn = ConnectionHelpers.GetConnection();
                 cnn.Open();
-                var strCmdRegister = $"insert into accounts (accountNumber, balance, userName, " +
-                                     $"passwordHash, phoneNumber, salt, role, fullName, email, status) values " +
-                                     $"('{account.AccountNumber}', {account.Balance}, '{account.Username}'," +
-                                     $"'{account.PasswordHash}', '{{account.PhoneNumber}}', '{{account.Salt}}'," +
-                                     $"{{(int)account.Role}}, '{account.FullName}', '{account.Email}'," +
-                                     $"{(int)account.Status})";
+                var strCmdRegister = $"insert into accounts (accountNumber, balance, userName, passwordHash, phoneNumber, salt, role, fullName, email, status) values ('{account.AccountNumber}', {Convert.ToDouble(account.Balance)}, '{account.Username}', '{account.PasswordHash}', '{account.PhoneNumber}', '{account.Salt}', " +
+                                     $"{Convert.ToInt32(account.Role)}, '{account.FullName}', '{account.Email}', {Convert.ToInt32(account.Status)})";
                 var cmdRegister = new MySqlCommand(strCmdRegister, cnn);
                 cmdRegister.ExecuteNonQuery();
                 cnn.Close();
-                Console.WriteLine("Tạo tài khoản thành công!");
+                if ((int)account.Role == 1)
+                {
+                    GuestMenu.StartGuestMenu();
+                }
+
+                if ((int)account.Role == 2)
+                {
+                    AdminMenu.StartAdminMenu();
+                }
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                // Console.WriteLine("Tạo tài khoản không thành công!");
                 return false;
             }
         }
