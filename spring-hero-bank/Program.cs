@@ -9,7 +9,7 @@ namespace spring_hero_bank
         public static Account currentNumber;
         public static void Main(string[] args)
         {
-            
+            GeneratorMenu.GenerateMenu();
         }
     }
 }

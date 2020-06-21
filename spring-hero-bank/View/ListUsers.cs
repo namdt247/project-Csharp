@@ -38,7 +38,7 @@ namespace spring_hero_bank.View
                 {
                     for (int i = 0; i < listAccount.Count; i++)
                     {
-                        Console.WriteLine(i + "   " + listAccount[i].AccountNumber + "   " + listAccount[i].Username + "   " +
+                        Console.WriteLine((i+1) + "   " + listAccount[i].AccountNumber + "   " + listAccount[i].Username + "   " +
                                           listAccount[i].Email + "   " + listAccount[i].PhoneNumber + "   " +
                                           listAccount[i].FullName + "   " + listAccount[i].Role + "   " +
                                           listAccount[i].Status);
@@ -51,7 +51,7 @@ namespace spring_hero_bank.View
                 Console.WriteLine("#   " + "AccountNumber   " + "Username   " + "Email   " + "Số điện thoại   " + "Tên đầy đủ   " + "Quyền sử dụng   " + "Trạng thái   ");
                 if (currentPageIndex != pageNumber)
                 {
-                    for (int j = (currentPageIndex-1)*10 + 1; j < currentPageIndex*10; j++)
+                    for (int j = (currentPageIndex-1)*10; j < currentPageIndex*10; j++)
                     {
                         Console.WriteLine((j+1) + "   " + listAccount[j].AccountNumber + "   " + listAccount[j].Username + "   " + listAccount[j].Email + "   " + listAccount[j].PhoneNumber + "   " + listAccount[j].FullName + "   " + listAccount[j].Role + "   " + listAccount[j].Status);
                     }
@@ -61,9 +61,9 @@ namespace spring_hero_bank.View
                 }
                 else
                 {
-                    for (int j = (currentPageIndex-1)*10 + 1; j < listAccount.Count; j++)
+                    for (int j = (currentPageIndex-1)*10; j < listAccount.Count; j++)
                     {
-                        Console.WriteLine(j + "   " + listAccount[j].AccountNumber + "   " + listAccount[j].Username + "   " + listAccount[j].Email + "   " + listAccount[j].PhoneNumber + "   " + listAccount[j].FullName + "   " + listAccount[j].Role + "   " + listAccount[j].Status);
+                        Console.WriteLine((j+1) + "   " + listAccount[j].AccountNumber + "   " + listAccount[j].Username + "   " + listAccount[j].Email + "   " + listAccount[j].PhoneNumber + "   " + listAccount[j].FullName + "   " + listAccount[j].Role + "   " + listAccount[j].Status);
                     }
                     Console.WriteLine("Số hàng trên trang: " + (listAccount.Count - (currentPageIndex - 1)*10) + ", Số trang: "+ pageNumber +"/" + pageNumber);
                     Console.WriteLine("Vui lòng nhấp phím '>' để sang trang tiếp");
@@ -90,8 +90,121 @@ namespace spring_hero_bank.View
                     }
                     if (keyB == ConsoleKey.OemComma)
                     {
-                        Console.WriteLine("5");
+                        
                         firtPage = 2;
+                        currentPageIndex--;
+                        if (currentPageIndex < 1)
+                        {
+                            currentPageIndex = pageNumber;
+                        }
+                        ListAllUser(listAccount);
+                        break;
+                        
+                    }
+                    if (keyB == ConsoleKey.Escape)
+                    {
+                        GeneratorMenu.GenerateMenu();
+                        break;
+                    }
+                }
+            }
+        }
+        
+        public static void ListAllHistory(List<SHBTransaction> listHistory)
+        {
+            int pageSize = 10;
+            Console.OutputEncoding = Encoding.UTF8;
+            var pageNumber = listHistory.Count % pageSize != 0 ? listHistory.Count / pageSize + 1 : listHistory.Count / pageSize;
+            if (firtPage == 1)
+            {
+                Console.WriteLine("--- Lịch sử giao dịch ---");
+                Console.WriteLine("-----------------------------");
+                Console.WriteLine("#   " + "TransactionCode   " + "SenderAccountNumber   " + "ReceiverAccountNumber   " + 
+                                  "Type   " + "Amount   " + "Fee   " + "Message   " + "CreateAt   " + "UpdatedAt   " + "Status   ");
+                var lengthPage = pageNumber > 0 ? currentPageIndex*10 : listHistory.Count;
+                if (pageNumber > 0)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Console.WriteLine((i+1) + "   "+ listHistory[i].TransactionCode + "   " + listHistory[i].SenderAccountNumber + "   " +
+                                          listHistory[i].ReceiverAccountNumber + "   " + listHistory[i].Type + "   " +
+                                          listHistory[i].Amount + "   " + listHistory[i].Fee + "   " + listHistory[i].Message + "   " +
+                                          listHistory[i].CreateAt + "   " + listHistory[i].UpdatedAt + "   " + listHistory[i].Status);
+                    }
+                    Console.WriteLine("Số hàng trên trang: " + lengthPage + ", Số trang: 1/" + pageNumber);
+                    Console.WriteLine("Vui lòng nhấp phím '>' để sang trang tiếp");
+                    Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
+                }
+                else
+                {
+                    for (int i = 0; i < listHistory.Count; i++)
+                    {
+                        Console.WriteLine((i+1) + "   "+ listHistory[i].TransactionCode + "   " + listHistory[i].SenderAccountNumber + "   " +
+                                          listHistory[i].ReceiverAccountNumber + "   " + listHistory[i].Type + "   " +
+                                          listHistory[i].Amount + "   " + listHistory[i].Fee + "   " + listHistory[i].Message + "   " +
+                                          listHistory[i].CreateAt + "   " + listHistory[i].UpdatedAt + "   " + listHistory[i].Status);
+                    }
+                    Console.WriteLine("Số hàng trên trang: " + lengthPage + ", Số trang: 1/" + pageNumber);
+                }
+            }
+            else
+            {
+                Console.WriteLine("#   " + "TransactionCode   " + "SenderAccountNumber   " + "ReceiverAccountNumber   " + 
+                                  "Type   " + "Amount   " + "Fee   " + "Message   " + "CreateAt   " + "UpdatedAt   " + "Status   ");                if (currentPageIndex != pageNumber)
+                {
+                    for (int j = (currentPageIndex-1)*10; j < currentPageIndex*10; j++)
+                    {
+                        Console.WriteLine(j + "   "+ listHistory[j].TransactionCode + "   " + listHistory[j].SenderAccountNumber + "   " +
+                                          listHistory[j].ReceiverAccountNumber + "   " + listHistory[j].Type + "   " +
+                                          listHistory[j].Amount + "   " + listHistory[j].Fee + "   " + listHistory[j].Message + "   " +
+                                          listHistory[j].CreateAt + "   " + listHistory[j].UpdatedAt + "   " + listHistory[j].Status);
+                    }
+                    Console.WriteLine("Số hàng trên trang: " + 10 + ", Số trang: "+ currentPageIndex +"/" + pageNumber);
+                    Console.WriteLine("Vui lòng nhấp phím '>' để sang trang tiếp");
+                    Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
+                }
+                else
+                {
+                    for (int j = (currentPageIndex-1)*10; j < listHistory.Count; j++)
+                    {
+                        Console.WriteLine(j + "   "+ listHistory[j].TransactionCode + "   " + listHistory[j].SenderAccountNumber + "   " +
+                                          listHistory[j].ReceiverAccountNumber + "   " + listHistory[j].Type + "   " +
+                                          listHistory[j].Amount + "   " + listHistory[j].Fee + "   " + listHistory[j].Message + "   " +
+                                          listHistory[j].CreateAt + "   " + listHistory[j].UpdatedAt + "   " + listHistory[j].Status);
+                    }
+                    Console.WriteLine("Số hàng trên trang: " + (listHistory.Count - (currentPageIndex - 1)*10) + ", Số trang: "+ pageNumber +"/" + pageNumber);
+                    Console.WriteLine("Vui lòng nhấp phím '>' để sang trang tiếp");
+                    Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
+                }
+            }
+            
+            if (listHistory.Count > 10)
+            {
+                var keyB = Console.ReadKey(true).Key;
+                var returnLoop = 0;
+                while (true)
+                {
+                    if (keyB == ConsoleKey.OemPeriod)
+                    {
+                        firtPage = 2;
+                        currentPageIndex++;
+                        if (currentPageIndex > pageNumber)
+                        {
+                            currentPageIndex = 1;
+                        }
+                        ListAllHistory(listHistory);
+                        break;
+                    }
+                    if (keyB == ConsoleKey.OemComma)
+                    {
+                        
+                        firtPage = 2;
+                        currentPageIndex--;
+                        if (currentPageIndex < 1)
+                        {
+                            currentPageIndex = pageNumber;
+                        }
+                        ListAllHistory(listHistory);
                         break;
                         
                     }
