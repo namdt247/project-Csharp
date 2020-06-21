@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using MySql.Data.MySqlClient;
 using spring_hero_bank.Helper;
 
@@ -17,6 +18,7 @@ namespace spring_hero_bank.Model
                 $"select * from accounts where userName = '{username}'";
             var cmdGetUsername = new MySqlCommand(strGetUsername, cnn);
             var usernameReader = cmdGetUsername.ExecuteReader();
+            Console.OutputEncoding = Encoding.UTF8;
             if (usernameReader.Read())
             {
                 Console.WriteLine("Vui lòng nhập username của bạn: ");

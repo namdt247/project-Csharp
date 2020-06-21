@@ -110,6 +110,7 @@
         <Compile Include="Helper\PasswordHelper.cs" />
         <Compile Include="Model\AccountModel.cs" />
         <Compile Include="Model\AdminModel.cs" />
+        <Compile Include="Model\ChangePage.cs" />
         <Compile Include="Model\CheckUser.cs" />
         <Compile Include="Model\GuestModel.cs" />
         <Compile Include="Program.cs" />
@@ -117,6 +118,7 @@
         <Compile Include="View\AdminMenu.cs" />
         <Compile Include="View\GeneratorMenu.cs" />
         <Compile Include="View\GuestMenu.cs" />
+        <Compile Include="View\ListUsers.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

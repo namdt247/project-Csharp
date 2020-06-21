@@ -1,27 +1,55 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using MySql.Data.MySqlClient;
 using spring_hero_bank.Entity;
 using spring_hero_bank.Helper;
+using spring_hero_bank.View;
 
 namespace spring_hero_bank.Controller
 {
     public class AdminController
     {
         //1. danh sách người dùng
-        public String ListUser()
+        public List<Account> ListUser()
         {
+            
+            List<Account> listAccount = new List<Account>();
             var cnn = ConnectionHelpers.GetConnection();
             cnn.Open();
             var stringCmdGetAccount = $"select * from accounts";
             var cmdGetAccount = new MySqlCommand(stringCmdGetAccount, cnn);
             var readerGetAccount = cmdGetAccount.ExecuteReader();
-            var renderAccount = "";
-            foreach (var account in readerGetAccount)
+            Console.OutputEncoding = Encoding.UTF8;
+            while (true)
             {
-                Console.WriteLine("132423");
+                if (readerGetAccount.Read())
+                {
+                    var account = new Account()
+                    {
+                        AccountNumber = readerGetAccount.GetString("accountNumber"),
+                        Username = readerGetAccount.GetString("userName"),
+                        Balance = readerGetAccount.GetDouble("balance"),
+                        PasswordHash = readerGetAccount.GetString("passwordHash"),
+                        Email = readerGetAccount.GetString("email"),
+                        PhoneNumber = readerGetAccount.GetString("phoneNumber"),
+                        Salt = readerGetAccount.GetString("salt"),
+                        FullName = readerGetAccount.GetString("fullName"),
+                        Role = (AccountRole) readerGetAccount.GetInt32("role"),
+                        Status = (AccountStatus) readerGetAccount.GetInt32("status")
+                    };
+                    listAccount.Add(account);
+                }
+                else
+                {
+                    break;
+                }
+                
             }
             cnn.Close();
-            return "Số tài khoản";
+            ListUsers.ListAllUser(listAccount);
+            return listAccount;
+            
         }
         //2. Danh sách lịch sử giao dịch.
         public void ListHistory()

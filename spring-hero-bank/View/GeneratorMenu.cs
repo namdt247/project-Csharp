@@ -7,7 +7,6 @@ namespace spring_hero_bank.View
 {
     public class GeneratorMenu
     {
-        
         public static void GenerateMenu()
         {
             var controller = new AccountController();
@@ -42,14 +41,6 @@ namespace spring_hero_bank.View
                     break;
                 }
             }
-
-            if ((int)account.Role == 1)
-            {
-                GuestMenu.StartGuestMenu();
-            } else if ((int)account.Role == 2)
-            {
-                AdminMenu.StartAdminMenu();
-            } 
         }
     }
 }

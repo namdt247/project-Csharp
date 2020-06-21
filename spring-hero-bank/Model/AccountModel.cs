@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using MySql.Data.MySqlClient;
 using spring_hero_bank.Entity;
 using spring_hero_bank.Helper;
@@ -9,26 +10,22 @@ namespace spring_hero_bank.Model
     public class AccountModel
     {
         private PasswordHelper _passwordHelper = new PasswordHelper();
+
         public bool Save(Account account)
         {
             try
             {
+                Console.OutputEncoding = Encoding.UTF8;
                 var cnn = ConnectionHelpers.GetConnection();
                 cnn.Open();
-                var strCmdRegister = $"insert into accounts (accountNumber, balance, userName, passwordHash, phoneNumber, salt, role, fullName, email, status) values ('{account.AccountNumber}', {Convert.ToDouble(account.Balance)}, '{account.Username}', '{account.PasswordHash}', '{account.PhoneNumber}', '{account.Salt}', " +
-                                     $"{Convert.ToInt32(account.Role)}, '{account.FullName}', '{account.Email}', {Convert.ToInt32(account.Status)})";
+                var strCmdRegister =
+                    $"insert into accounts (accountNumber, balance, userName, passwordHash, phoneNumber, salt, role, fullName, email, status) values ('{account.AccountNumber}', {Convert.ToDouble(account.Balance)}, '{account.Username}', '{account.PasswordHash}', '{account.PhoneNumber}', '{account.Salt}', " +
+                    $"{Convert.ToInt32(account.Role)}, '{account.FullName}', '{account.Email}', {Convert.ToInt32(account.Status)})";
                 var cmdRegister = new MySqlCommand(strCmdRegister, cnn);
                 cmdRegister.ExecuteNonQuery();
                 cnn.Close();
-                if ((int)account.Role == 1)
-                {
-                    GuestMenu.StartGuestMenu();
-                }
-
-                if ((int)account.Role == 2)
-                {
-                    AdminMenu.StartAdminMenu();
-                }
+                Console.WriteLine("Đăng ký tài khoản thành công.");
+                GeneratorMenu.GenerateMenu();
                 return true;
             }
             catch (Exception e)
@@ -44,7 +41,7 @@ namespace spring_hero_bank.Model
             var cnn = ConnectionHelpers.GetConnection();
             cnn.Open();
             var stringCmdGetAccount = $"select * from accounts where username = '{username}' and " +
-                $"status = {(int)AccountStatus.ACTIVE}";
+                                      $"status = {(int) AccountStatus.ACTIVE}";
             var cmdGetAccount = new MySqlCommand(stringCmdGetAccount, cnn);
             var readerGetAccount = cmdGetAccount.ExecuteReader();
             if (readerGetAccount.Read())
@@ -63,6 +60,7 @@ namespace spring_hero_bank.Model
                     Status = (AccountStatus) readerGetAccount.GetInt32("status")
                 };
             }
+
             cnn.Close();
             return account;
         }

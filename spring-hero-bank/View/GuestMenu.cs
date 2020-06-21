@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using spring_hero_bank.Controller;
 
 namespace spring_hero_bank.View
@@ -9,6 +10,7 @@ namespace spring_hero_bank.View
         {
             var controller = new AdminController();
             var guest_controller = new GuestController();
+            Console.OutputEncoding = Encoding.UTF8;
             while (true)
             {
                 Console.Clear();

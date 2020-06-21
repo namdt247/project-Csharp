@@ -1,5 +1,5 @@
 using System;
-
+using System.Text;
 using spring_hero_bank.Entity;
 using spring_hero_bank.Helper;
 using spring_hero_bank.Model;
@@ -14,6 +14,7 @@ namespace spring_hero_bank.Controller
         private CheckUser _checkUsernameModel = new CheckUser();
         public bool Register()
         {
+            Console.OutputEncoding = Encoding.UTF8;
             try
             {
                 Console.WriteLine("-- Đăng ký tài khoản --");
@@ -59,7 +60,7 @@ namespace spring_hero_bank.Controller
                             PhoneNumber = phoneNumber,
                             Salt = salt,
                             FullName = fullName,
-                            Role = AccountRole.GUEST,
+                            Role = AccountRole.ADMIN,
                             Status = AccountStatus.ACTIVE,
                         };
                         _accountModel.Save(account);
@@ -75,29 +76,63 @@ namespace spring_hero_bank.Controller
             }
         }
 
-        public Account Login()
+        public bool Login()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            var count = 0;
             Console.WriteLine("Đăng nhập hệ thống");
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("Vui lòng nhập username: ");
-            var username = Console.ReadLine();
-            Console.WriteLine("Vui lòng nhập password: ");
-            var password = Console.ReadLine();
-            Account account = _accountModel.GetActiveAccountByUserName(username);
-            if (account != null && _passwordHelper.ComparePassword(password, account.Salt, account.PasswordHash))
+            while (true)
             {
-                if ((int)account.Role == 1)
+                Console.WriteLine("Vui lòng nhập username: ");
+                var username = Console.ReadLine();
+                Console.WriteLine("Vui lòng nhập password: ");
+                var password = Console.ReadLine();
+                var account = _accountModel.GetActiveAccountByUserName(username);
+                count++;
+                if (account != null && _passwordHelper.ComparePassword(password, account.Salt, account.PasswordHash))
                 {
-                    GuestMenu.StartGuestMenu();
+                    if ((int)account.Role == 1)
+                    {
+                        GuestMenu.StartGuestMenu();
+                    }
+                    if ((int)account.Role == 2)
+                    {
+                        AdminMenu.StartAdminMenu();
+                    }
+
+                    return true;
                 }
-                if ((int)account.Role == 2)
+                else
                 {
-                    AdminMenu.StartAdminMenu();
+                    Console.WriteLine("Thông tin tài khoản không đúng vui lòng nhập lại thông tin!");
+                    if (count == 3)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Quý khách có muốn tạo tài khoản mới không?");
+                            Console.WriteLine("1. Đồng ý");
+                            Console.WriteLine("2. Từ chối");
+                            var choice = int.Parse(Console.ReadLine());
+                            if (choice == 1)
+                            {
+                                Register();
+                                return true;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            throw;
+                        }
+                    }
+                    if (count >= 5)
+                    {
+                        GeneratorMenu.GenerateMenu();
+                        return true;
+                    }
                 }
-                return account;
             }
-            
-            return null;
         }
     }
 }
