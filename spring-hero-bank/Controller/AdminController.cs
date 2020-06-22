@@ -96,17 +96,17 @@ namespace spring_hero_bank.Controller
             Console.WriteLine("Vui lòng nhập userName cần tìm kiếm: ");
             var sreachUserName = Console.ReadLine();
             var cnnSreach = ConnectionHelpers.GetConnection();
-            cnnSreach.Open();
             var stringCmdGetUserName = $"select * from accounts where userName = '{sreachUserName}'";
             var cmdGetUserName = new MySqlCommand(stringCmdGetUserName, cnnSreach);
+            cnnSreach.Open();
             var readerGetUserName = cmdGetUserName.ExecuteReader();
             if (readerGetUserName.Read())
             {
                 Console.WriteLine("AccountNumber   " + "Username   " + "Email   " + "Số điện thoại   " + "Tên đầy đủ   " + "Quyền sử dụng   " + "Trạng thái   ");
                 Console.WriteLine(readerGetUserName.GetString("accountNumber") + "   " + readerGetUserName.GetString("userName") + "   " +
                                   readerGetUserName.GetString("email") + "   " + readerGetUserName.GetString("phoneNumber") + "   " +
-                                  readerGetUserName.GetString("fullName") + "   " + readerGetUserName.GetString("role") + "   " +
-                                  readerGetUserName.GetString("status"));
+                                  readerGetUserName.GetString("fullName") + "   " + (AccountRole) readerGetUserName.GetInt32("role") + "   " +
+                                  (AccountStatus) readerGetUserName.GetInt32("status"));
             }
             else
             {
@@ -152,7 +152,83 @@ namespace spring_hero_bank.Controller
         //7. Khoá và mở tài khoản người dùng.
         public void LockUser()
         {
-            Console.WriteLine("7");
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.WriteLine("Nhập tên tài khoản cần tìm: ");
+            var user_name = Console.ReadLine();
+            var cnnSreachName = ConnectionHelpers.GetConnection();
+            cnnSreachName.Open();
+            var stringGetUserName = $"select * from accounts where userName = '{user_name}'";
+            var cmdGetUserName = new MySqlCommand(stringGetUserName, cnnSreachName);
+            var getUserName = cmdGetUserName.ExecuteReader();
+            if (getUserName.Read())
+            {
+                Console.WriteLine(getUserName.GetString("accountNumber") + "   " + getUserName.GetString("userName") + "   " +
+                                  getUserName.GetString("email") + "   " + getUserName.GetString("phoneNumber") + "   " +
+                                  getUserName.GetString("fullName") + "   " + (AccountRole) getUserName.GetInt32("role") + "   " +
+                                  (AccountStatus) getUserName.GetInt32("status"));
+                var name = getUserName.GetString("userName");
+                if (getUserName.GetInt32("status") == 1)
+                {
+                    try
+                    {
+                        Console.WriteLine("Bạn có muốn khoá tài này không?");
+                        Console.WriteLine("1. Có.");
+                        Console.WriteLine("2. Không.");
+                        var choice = int.Parse(Console.ReadLine());
+                        if (choice == 1)
+                        {
+                            getUserName.Close();
+                            var updateStatus = $"UPDATE `accounts` SET `status`= 2 WHERE userName = '{name}'";
+                            var cmdStatus = new MySqlCommand(updateStatus, cnnSreachName);
+                            cmdStatus.ExecuteNonQuery();
+                            Console.WriteLine("Cập nhật trạng thái tài khoản thành công");
+                            AdminMenu.StartAdminMenu();
+                        }
+
+                        if (choice == 2)
+                        {
+                            LockUser();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                else if (getUserName.GetInt32("status") == 2)
+                {
+                    try
+                    {
+                        Console.WriteLine("Bạn có muốn mở khoá tài này không?");
+                        Console.WriteLine("1. Có.");
+                        Console.WriteLine("2. Không.");
+                        var choice = int.Parse(Console.ReadLine());
+                        if (choice == 1)
+                        {
+                            getUserName.Close();
+                            var updateStatus = $"UPDATE `accounts` SET `status`= 1 WHERE userName = '{name}'";
+                            var cmdStatus = new MySqlCommand(updateStatus, cnnSreachName);
+                            cmdStatus.ExecuteNonQuery();
+                            Console.WriteLine("Cập nhật trạng thái tài khoản thành công");
+                            AdminMenu.StartAdminMenu();
+                        }
+
+                        if (choice == 2)
+                        {
+                            LockUser();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Tài khoản này không tồn tại hoặc đã bị xoá.");
+            }
+            cnnSreachName.Close();
         }
         //8. Tìm kiếm lịch sử giao dịch theo số tài khoản.
         public void SreachHistoryAccountNumber()
@@ -168,6 +244,31 @@ namespace spring_hero_bank.Controller
         public void ResetPassword()
         {
             Console.WriteLine("10");
+        }
+
+        public void UpdateStatus(int status, string username)
+        {
+            Console.WriteLine(username);
+            var cnnUpdate = ConnectionHelpers.GetConnection();
+            cnnUpdate.Open();
+            if (status == 1)
+            {
+                int changeStatus = 2;
+                var updateStatus = $"UPDATE `accounts` SET `status`= {changeStatus} WHERE userName = '{username}'";
+                var cmdStatus = new MySqlCommand(updateStatus, cnnUpdate);
+                cmdStatus.ExecuteNonQuery();
+            }
+
+            if (status == 2)
+            {
+                Console.WriteLine("2222222");
+                int changeStatus = 1;
+                var updateStatus = $"UPDATE `accounts` SET `status`= {changeStatus} WHERE userName = '{username}'";
+                var cmdStatus = new MySqlCommand(updateStatus, cnnUpdate);
+                cmdStatus.ExecuteNonQuery();
+            }
+            
+            cnnUpdate.Close();
         }
     }
 }
