@@ -245,30 +245,5 @@ namespace spring_hero_bank.Controller
         {
             Console.WriteLine("10");
         }
-
-        public void UpdateStatus(int status, string username)
-        {
-            Console.WriteLine(username);
-            var cnnUpdate = ConnectionHelpers.GetConnection();
-            cnnUpdate.Open();
-            if (status == 1)
-            {
-                int changeStatus = 2;
-                var updateStatus = $"UPDATE `accounts` SET `status`= {changeStatus} WHERE userName = '{username}'";
-                var cmdStatus = new MySqlCommand(updateStatus, cnnUpdate);
-                cmdStatus.ExecuteNonQuery();
-            }
-
-            if (status == 2)
-            {
-                Console.WriteLine("2222222");
-                int changeStatus = 1;
-                var updateStatus = $"UPDATE `accounts` SET `status`= {changeStatus} WHERE userName = '{username}'";
-                var cmdStatus = new MySqlCommand(updateStatus, cnnUpdate);
-                cmdStatus.ExecuteNonQuery();
-            }
-            
-            cnnUpdate.Close();
-        }
     }
 }
