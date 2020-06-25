@@ -110,7 +110,7 @@ namespace spring_hero_bank.Helper
             {
                 if (keyB == ConsoleKey.Escape)
                 {
-                    GeneratorMenu.GenerateMenu();
+                    GuestMenu.GenerateGuestMenu();
                 }
             }
         }
@@ -222,7 +222,7 @@ namespace spring_hero_bank.Helper
             {
                 if (keyB == ConsoleKey.Escape)
                 {
-                    GeneratorMenu.GenerateMenu();
+                    GuestMenu.GenerateGuestMenu();
                 }
             }
         }
