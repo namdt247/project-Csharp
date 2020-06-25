@@ -69,14 +69,13 @@ namespace spring_hero_bank.Helper
                     Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
                 }
             }
-            
+            var keyB = Console.ReadKey(true).Key;
             if (listAccount.Count > 10)
             {
-                var keyB = Console.ReadKey(true).Key;
                 var returnLoop = 0;
                 while (true)
                 {
-                    if (keyB == ConsoleKey.OemPeriod)
+                    if (keyB == ConsoleKey.RightArrow)
                     {
                         firtPage = 2;
                         currentPageIndex++;
@@ -87,7 +86,7 @@ namespace spring_hero_bank.Helper
                         ListAllUser(listAccount);
                         break;
                     }
-                    if (keyB == ConsoleKey.OemComma)
+                    if (keyB == ConsoleKey.LeftArrow)
                     {
                         
                         firtPage = 2;
@@ -105,6 +104,13 @@ namespace spring_hero_bank.Helper
                         // GeneratorMenu.GenerateMenu();
                         break;
                     }
+                }
+            }
+            else
+            {
+                if (keyB == ConsoleKey.Escape)
+                {
+                    GeneratorMenu.GenerateMenu();
                 }
             }
         }
@@ -175,14 +181,13 @@ namespace spring_hero_bank.Helper
                     Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
                 }
             }
-            
+            var keyB = Console.ReadKey(true).Key;
             if (listHistory.Count > 10)
             {
-                var keyB = Console.ReadKey(true).Key;
                 var returnLoop = 0;
                 while (true)
                 {
-                    if (keyB == ConsoleKey.OemPeriod)
+                    if (keyB == ConsoleKey.RightArrow)
                     {
                         firtPage = 2;
                         currentPageIndex++;
@@ -193,7 +198,7 @@ namespace spring_hero_bank.Helper
                         ListAllTransactionHistory(listHistory);
                         break;
                     }
-                    if (keyB == ConsoleKey.OemComma)
+                    if (keyB == ConsoleKey.LeftArrow)
                     {
                         
                         firtPage = 2;
@@ -209,8 +214,15 @@ namespace spring_hero_bank.Helper
                     if (keyB == ConsoleKey.Escape)
                     {
                         // GeneratorMenu.GenerateMenu();
-                        return;
+                        break;
                     }
+                }
+            }
+            else
+            {
+                if (keyB == ConsoleKey.Escape)
+                {
+                    GeneratorMenu.GenerateMenu();
                 }
             }
         }
