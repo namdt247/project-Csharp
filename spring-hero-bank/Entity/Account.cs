@@ -8,7 +8,7 @@ namespace spring_hero_bank.Entity
         public string PasswordHash { get; set; }
         public string PhoneNumber { get; set; }
         public string Salt { get; set; }
-        public AccountRole Role { get; set; } // 1. guest || 2. admin
+        public AccountRole Role { get; set; } // 1. user || 2. admin
         public string FullName { get; set; }
         public string Email { get; set; }
 
@@ -16,14 +16,16 @@ namespace spring_hero_bank.Entity
 
         public override string ToString()
         {
-            return $"Account : Role = {(AccountRole) Role}";
+            return $"Accountnumber: {AccountNumber}, Balance: {Balance}, Username | {Username}\n" +
+                   $"PhoneNumber: {PhoneNumber}, Role: {Role}, Fullname: {FullName}\n" +
+                   $"Email: {Email}, Status: {Status}\n";
         }
 
     }
     
     public enum AccountRole
     {
-        GUEST = 1, ADMIN = 2
+        USER = 1, ADMIN = 2
     }
 
     public enum AccountStatus

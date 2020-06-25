@@ -1,19 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using spring_hero_bank.Controller;
+using spring_hero_bank.Helper;
 
 namespace spring_hero_bank.View
 {
     public class AdminMenu
     {
-        public static void StartAdminMenu()
+        public static void GenerateAdminMenu()
         {
-            var controller = new AdminController();
-            var account_controller = new AccountController();
+            var adminController = new AdminController();
+            ShowPageHelper showPageHelper = new ShowPageHelper();
+            
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("—— Ngân hàng Spring Hero Bank ——");
-                Console.WriteLine("Chào mừng Admin quay trở lại. Vui lòng chọn thao tác.");
+                Console.WriteLine("------------ Ngân hàng Spring Hero Bank ------------");
+                Console.WriteLine($"Chào mừng Admin \"{Program.currentLogin.Username}\" quay trở lại. Vui lòng chọn thao tác.");
                 Console.WriteLine("1. Danh sách người dùng.");
                 Console.WriteLine("2. Danh sách lịch sử giao dịch.");
                 Console.WriteLine("3. Tìm kiếm người dùng theo tên.");
@@ -31,38 +34,92 @@ namespace spring_hero_bank.View
                 switch (choice)
                 {
                     case 1:
-                        controller.ListUser();
+                        var listUser = adminController.ListUserController();
+                        if (listUser == null || listUser.Count == 0)
+                        {
+                            Console.WriteLine("Không có danh sách tài ");
+                        }
+                        else
+                        {
+                            showPageHelper.ListAllUser(listUser);
+                        }
                         break;
                     case 2:
-                        controller.ListHistory();
+                        var listTran = adminController.ListTransactionController();
+                        if (listTran == null || listTran.Count == 0)
+                        {
+                            Console.WriteLine("Không có danh sách giao dịch");
+                        }
+                        else
+                        {
+                            showPageHelper.ListAllTransactionHistory(listTran);
+                        }
                         break;
                     case 3:
-                        controller.SreachUserName();
+                        var accountByName = adminController.GetAccountByName();
+                        if (accountByName == null)
+                        {
+                            Console.WriteLine("Không tìm thấy tài khoản phù hợp");
+                        }
+                        else
+                        {
+                            Console.WriteLine(accountByName.ToString());
+                        }
                         break;
                     case 4:
-                        controller.SreachAccountNumber();
+                        var accountByAccNumber = adminController.GetAccountByAccountNumber();
+                        if (accountByAccNumber == null)
+                        {
+                            Console.WriteLine("Không tìm thấy tài khoản phù hợp");
+                        }
+                        else
+                        {
+                            Console.WriteLine(accountByAccNumber.ToString());
+                        }
                         break;
                     case 5:
-                        controller.SreachPhoneNumber();
+                        var accountByPhone = adminController.GetAccountByPhone();
+                        if (accountByPhone == null)
+                        {
+                            Console.WriteLine("Không tìm thấy tài khoản phù hợp");
+                        }
+                        else
+                        {
+                            Console.WriteLine(accountByPhone.ToString());
+                        }
                         break;
                     case 6:
-                        account_controller.Register();
+                        if (adminController.AdminRegister())
+                        {
+                            Console.WriteLine("Thêm tài khoản thành công!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Thêm tài khoản không thành công vui lòng thử lại!");
+                        }
                         break;
                     case 7:
-                        controller.LockUser();
+                        if (adminController.ChangeUserStatus())
+                        {
+                            Console.WriteLine("Thao tác thành công!");
+                        }
                         break;
                     case 8:
-                        controller.SreachHistoryAccountNumber();
+                        var listTransaction = adminController.GetTransactionByAccountNumber();
+                        foreach (var transaction in listTransaction)
+                        {
+                            Console.WriteLine(transaction.ToString());
+                        }
                         break;
                     case 9:
-                        controller.ChangeAccountInformation();
+                        adminController.EditAccount();
                         break;
                     case 10:
-                        controller.ResetPassword();
+                        adminController.PasswordChange();
                         break;
                     case 11:
                         Console.WriteLine("Hẹn gặp lại.");
-                        break;
+                        return;
                 }
                 Console.ReadLine();
                 if (choice == 11)

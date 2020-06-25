@@ -1,60 +1,63 @@
-﻿using System;
+using System;
 using spring_hero_bank.Controller;
+using spring_hero_bank.Entity;
 
 namespace spring_hero_bank.View
 {
     public class GuestMenu
     {
-        public static void StartGuestMenu()
+        public static void GenerateGuestMenu()
         {
-            var controller = new AdminController();
-            var guest_controller = new GuestController();
             while (true)
             {
+                GuestController guestController = new GuestController();
                 Console.Clear();
-                Console.WriteLine("—— Ngân hàng Spring Hero Bank ——");
-                Console.WriteLine("Chào mừng quay trở lại. Vui lòng chọn thao tác.");
-                Console.WriteLine("1. Gửi tiền.");
-                Console.WriteLine("2. Rút tiền.");
-                Console.WriteLine("3. Chuyển khoản.");
-                Console.WriteLine("4. Truy vấn số dư.");
-                Console.WriteLine("5. Thay đổi thông tin cá nhân.");
-                Console.WriteLine("6. Thay đổi thông tin mật khẩu.");
-                Console.WriteLine("7. Truy vấn lịch sử giao dịch.");
-                Console.WriteLine("8. Thoát.");
-                Console.WriteLine("——————————————————-");
-                Console.WriteLine("Nhập lựa chọn của bạn (Từ 1 đến 8): ");
+                Console.WriteLine("--- Ngân hàng Spring Hero Bank ---");
+                Console.WriteLine("1. Đăng ký tài khoản.");
+                Console.WriteLine("2. Đăng nhập hệ thống.");
+                Console.WriteLine("3. Thoát.");
+                Console.WriteLine("----------------------------------");
+                Console.WriteLine("Nhập lựa chọn của bạn (1,2,3): ");
                 var choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
                     case 1:
-                        guest_controller.SendMoney();
+                        if (guestController.Register())
+                        {
+                            Console.WriteLine("Đăng ký tài khoản thành công!");   
+                        }
+                        else
+                        {
+                            Console.WriteLine("Đăng ký tài khoản thất bại vui lòng thử lại!");
+                        }
                         break;
                     case 2:
-                        guest_controller.Withdraw();
+                        var account = guestController.Login();
+                        if (account == null)
+                        {
+                            Console.WriteLine("Đăng nhập thất bại!");
+                            break;
+                        }
+                        Program.currentLogin = account;
+                        if ((int)Program.currentLogin.Role == 1)
+                        {
+                            UserMenu.GenerateGuestMenu();
+                        }
+                        else
+                        {
+                            AdminMenu.GenerateAdminMenu();
+                        }
                         break;
                     case 3:
-                        guest_controller.Transfer();
+                        Console.WriteLine("Cảm ơn quý khách đã sử dụng dịch vụ của chúng tôi!");
                         break;
-                    case 4:
-                        guest_controller.Deposit();
-                        break;
-                    case 5:
-                        controller.ChangeAccountInformation();
-                        break;
-                    case 6:
-                        controller.ResetPassword();
-                        break;
-                    case 7:
-                        controller.SreachHistoryAccountNumber();
-                        break;
-                    case 8:
-                        Console.WriteLine("Hẹn gặp lại.");
+                    default:
+                        Console.WriteLine("Vui lòng nhập lựa chọn từ 1-3.");
                         break;
                 }
 
                 Console.ReadLine();
-                if (choice == 8)
+                if (choice == 3)
                 {
                     break;
                 }

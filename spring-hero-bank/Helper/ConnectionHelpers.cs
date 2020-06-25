@@ -17,7 +17,6 @@ namespace spring_hero_bank.Helper
             {
                 _connection = new MySqlConnection(
                     $"SERVER={DatabaseServer};DATABASE={DatabaseName};UID={DatabaseUid};PASSWORD={DatabasePassword}");
-                Console.WriteLine("Ket noi thanh cong");
             }
 
             return _connection;

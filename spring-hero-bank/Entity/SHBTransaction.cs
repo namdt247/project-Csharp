@@ -14,6 +14,14 @@ namespace spring_hero_bank.Entity
         public DateTime CreateAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public TransactionStatus Status { get; set; } // 1. pending || 2. done || 0. fails
+
+        public override string ToString()
+        {
+            return
+                $"TransactionCode: {TransactionCode}\n" +
+                $"SenderAccountNumber: {SenderAccountNumber}, ReceiverAccountNumber: {ReceiverAccountNumber}\n" +
+                $"Amount: {Amount}, Fee: {Fee}, CreateAt: {CreateAt}\n";
+        }
     }
 
     public enum TransactionStatus
