@@ -106,9 +106,16 @@ namespace spring_hero_bank.View
                         break;
                     case 8:
                         var listTransaction = adminController.GetTransactionByAccountNumber();
-                        foreach (var transaction in listTransaction)
+                        if (listTransaction == null || listTransaction.Count == 0)
                         {
-                            Console.WriteLine(transaction.ToString());
+                            Console.WriteLine("Không có danh sách giao dịch");
+                        }
+                        else
+                        {
+                            foreach (var transaction in listTransaction)
+                            {
+                                Console.WriteLine(transaction.ToString());
+                            }
                         }
                         break;
                     case 9:

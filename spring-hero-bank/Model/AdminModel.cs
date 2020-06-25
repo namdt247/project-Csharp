@@ -141,6 +141,7 @@ namespace spring_hero_bank.Model
                     AccountNumber = accountReader.GetString("accountNumber"),
                     Balance = accountReader.GetDouble("balance"),
                     Username = accountReader.GetString("userName"),
+                    Salt = accountReader.GetString("salt"),
                     PhoneNumber = accountReader.GetString("phoneNumber"),
                     Role = (AccountRole) accountReader.GetInt32("role"),
                     FullName = accountReader.GetString("fullName"),
@@ -191,6 +192,7 @@ namespace spring_hero_bank.Model
                 Console.WriteLine($"Tài khoản {accountNumber} đang hoạt động, bạn có muốn khóa tài khoản này không?");
                 Console.WriteLine("1. Có.");
                 Console.WriteLine("2. Không.");
+                Console.WriteLine("Vui lòng nhập lựa chọn của bạn: ");
                 var choice = int.Parse(Console.ReadLine());
                 switch (choice)
                 {
@@ -307,7 +309,7 @@ namespace spring_hero_bank.Model
                     };
                     list.Add(transactionHistory);
                 }
-
+                cnn.Close();
                 return list;
             }
             catch (Exception e)
@@ -327,12 +329,12 @@ namespace spring_hero_bank.Model
                 return false;
             }
             
-            try {
+            try 
+            {
                 var cnn = ConnectionHelpers.GetConnection();
                 cnn.Open();
-                var stringCmdEditAccount = (
-                    $"UPDATE accounts SET phoneNumber = '{phoneNumber}', fullName = '{fullName}', email = '{email}' WHERE accountNumber = '{Program.currentLogin.AccountNumber} AND status = {(int) AccountStatus.ACTIVE}'"
-                );
+                var stringCmdEditAccount =
+                    $"UPDATE `accounts` SET `phoneNumber` = '{phoneNumber}', `fullName` = '{fullName}', `email` = '{email}' WHERE accountNumber = '{Program.currentLogin.AccountNumber}' AND status = {(int) AccountStatus.ACTIVE}";
                 var cmdEditAccount = new MySqlCommand(stringCmdEditAccount, cnn);
                 cmdEditAccount.ExecuteNonQuery();
                 cnn.Close();
@@ -350,13 +352,13 @@ namespace spring_hero_bank.Model
         // 10. Thay doi password
         public bool ChangePassword(string password)
         {
-            var account = GetUserByAccountAccountNumber(Program.currentLogin.Username);
+            Account account = GetUserByAccountAccountNumber(Program.currentLogin.AccountNumber);
             if (account == null)
             {
                 Console.WriteLine("Không tìm thấy tài khoản hoặc tài khoản đã bị khóa!");
                 return false;
             }
-            
+
             var cnn = ConnectionHelpers.GetConnection();
             cnn.Open();
             try

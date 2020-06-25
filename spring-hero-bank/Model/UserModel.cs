@@ -49,7 +49,7 @@ namespace spring_hero_bank.Model
                     Type = TransactionType.DEPOSIT,
                     Amount = amount,
                     Fee = 0,
-                    Message = "Deposit" + amount,
+                    Message = "Deposit " + amount,
                     CreateAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
                     Status = TransactionStatus.DONE

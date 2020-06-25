@@ -16,7 +16,7 @@ namespace spring_hero_bank.Entity
 
         public override string ToString()
         {
-            return $"Accountnumber: {AccountNumber}, Balance: {Balance}, Username | {Username}\n" +
+            return $"Accountnumber: {AccountNumber}, Balance: {Balance}, Username: {Username}\n" +
                    $"PhoneNumber: {PhoneNumber}, Role: {Role}, Fullname: {FullName}\n" +
                    $"Email: {Email}, Status: {Status}\n";
         }

@@ -79,13 +79,19 @@ namespace spring_hero_bank.Controller
                 while (true)
                 {
                     var checkUsername = _guestModel.ValidateUsername(username);
+                    var checkAccount = _guestModel.ValidateAccountNumber(accountNumber);
 
                     if (checkUsername != null)
                     {
                         username = checkUsername;
                     }
+                    
+                    if (checkAccount != null)
+                    {
+                        accountNumber = checkAccount;
+                    }
 
-                    if (checkUsername == null)
+                    if (checkUsername == null && checkAccount == null)
                     {
                         var account = new Account()
                         {
@@ -151,13 +157,13 @@ namespace spring_hero_bank.Controller
             var phoneNumber = Console.ReadLine();
             Console.WriteLine("Vui lòng nhập tên đầy đủ của bạn: ");
             var fullName = Console.ReadLine();
-            _adminModel.EditAccount(email, phoneNumber, fullName);
+            _adminModel.EditAccount(phoneNumber, fullName, email);
         }
         
         // 10. Thay doi mat khau
         public void PasswordChange()
         {
-            Console.WriteLine("---- Thay đổi mật khẩu tài  ----");
+            Console.WriteLine("---- Thay đổi mật khẩu tài khoản ----");
             Console.WriteLine("Vui lòng nhập mật khẩu: ");
             var password = Console.ReadLine();
             Console.WriteLine("Vui lòng xác nhận lại mật khẩu: ");

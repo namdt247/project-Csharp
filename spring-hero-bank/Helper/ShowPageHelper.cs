@@ -12,7 +12,6 @@ namespace spring_hero_bank.Helper
         public void ListAllUser(List<Account> listAccount)
         {
             int pageSize = 10;
-            // var pageNumber = listAccount.Count % pageSize != 0 ? listAccount.Count / pageSize + 1 : listAccount.Count / pageSize;
             var pageNumber = listAccount.Count < pageSize ? 0 : listAccount.Count / pageSize + 1;
             if (firtPage == 1)
             {
@@ -113,7 +112,6 @@ namespace spring_hero_bank.Helper
         public void ListAllTransactionHistory(List<SHBTransaction> listHistory)
         {
             int pageSize = 10;
-            // var pageNumber = listHistory.Count % pageSize != 0 ? listHistory.Count / pageSize + 1 : listHistory.Count / pageSize;
             var pageNumber = listHistory.Count < pageSize ? 0 : listHistory.Count / pageSize + 1;
             if (firtPage == 1)
             {
@@ -211,7 +209,7 @@ namespace spring_hero_bank.Helper
                     if (keyB == ConsoleKey.Escape)
                     {
                         // GeneratorMenu.GenerateMenu();
-                        break;
+                        return;
                     }
                 }
             }
