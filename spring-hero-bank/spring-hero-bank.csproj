@@ -101,22 +101,22 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Controller\AccountController.cs" />
-        <Compile Include="Controller\AdminController.cs" />
         <Compile Include="Controller\GuestController.cs" />
+        <Compile Include="Controller\AdminController.cs" />
+        <Compile Include="Controller\UserController.cs" />
         <Compile Include="Entity\Account.cs" />
         <Compile Include="Entity\SHBTransaction.cs" />
         <Compile Include="Helper\ConnectionHelpers.cs" />
         <Compile Include="Helper\PasswordHelper.cs" />
-        <Compile Include="Model\AccountModel.cs" />
-        <Compile Include="Model\AdminModel.cs" />
-        <Compile Include="Model\CheckUser.cs" />
+        <Compile Include="Helper\ShowPageHelper.cs" />
         <Compile Include="Model\GuestModel.cs" />
+        <Compile Include="Model\AdminModel.cs" />
+        <Compile Include="Model\UserModel.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="View\AdminMenu.cs" />
-        <Compile Include="View\GeneratorMenu.cs" />
         <Compile Include="View\GuestMenu.cs" />
+        <Compile Include="View\UserMenu.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
