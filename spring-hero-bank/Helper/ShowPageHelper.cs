@@ -69,11 +69,11 @@ namespace spring_hero_bank.Helper
                     Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
                 }
             }
-            var keyB = Console.ReadKey(true).Key;
-            if (listAccount.Count > 10)
+            
+            while (true)
             {
-                var returnLoop = 0;
-                while (true)
+                var keyB = Console.ReadKey(true).Key;
+                if (listAccount.Count > 10)
                 {
                     if (keyB == ConsoleKey.RightArrow)
                     {
@@ -88,7 +88,7 @@ namespace spring_hero_bank.Helper
                     }
                     if (keyB == ConsoleKey.LeftArrow)
                     {
-                        
+
                         firtPage = 2;
                         currentPageIndex--;
                         if (currentPageIndex < 1)
@@ -97,20 +97,13 @@ namespace spring_hero_bank.Helper
                         }
                         ListAllUser(listAccount);
                         break;
-                        
-                    }
-                    if (keyB == ConsoleKey.Escape)
-                    {
-                        // GeneratorMenu.GenerateMenu();
-                        break;
+
                     }
                 }
-            }
-            else
-            {
                 if (keyB == ConsoleKey.Escape)
                 {
                     GuestMenu.GenerateGuestMenu();
+                    break;
                 }
             }
         }
@@ -181,11 +174,11 @@ namespace spring_hero_bank.Helper
                     Console.WriteLine("Vui lòng nhấp phím '<' để quay lại trang trước");
                 }
             }
-            var keyB = Console.ReadKey(true).Key;
-            if (listHistory.Count > 10)
+            
+            while (true)
             {
-                var returnLoop = 0;
-                while (true)
+                var keyB = Console.ReadKey(true).Key;
+                if (listHistory.Count > 10)
                 {
                     if (keyB == ConsoleKey.RightArrow)
                     {
@@ -200,7 +193,7 @@ namespace spring_hero_bank.Helper
                     }
                     if (keyB == ConsoleKey.LeftArrow)
                     {
-                        
+
                         firtPage = 2;
                         currentPageIndex--;
                         if (currentPageIndex < 1)
@@ -209,20 +202,13 @@ namespace spring_hero_bank.Helper
                         }
                         ListAllTransactionHistory(listHistory);
                         break;
-                        
-                    }
-                    if (keyB == ConsoleKey.Escape)
-                    {
-                        // GeneratorMenu.GenerateMenu();
-                        break;
+
                     }
                 }
-            }
-            else
-            {
                 if (keyB == ConsoleKey.Escape)
                 {
                     GuestMenu.GenerateGuestMenu();
+                    break;
                 }
             }
         }
