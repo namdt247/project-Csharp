@@ -7,8 +7,8 @@ namespace spring_hero_bank.Helper
 {
     public class ShowPageHelper
     {
-        public static int firtPage = 1;
-        public static int currentPageIndex = 1;
+        public int firtPage = 1;
+        public int currentPageIndex = 1;
         
         public void ListAllUser(List<Account> listAccount)
         {
