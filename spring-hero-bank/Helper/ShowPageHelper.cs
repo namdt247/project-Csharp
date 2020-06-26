@@ -148,7 +148,8 @@ namespace spring_hero_bank.Helper
             else
             {
                 Console.WriteLine("#   " + "TransactionCode   " + "SenderAccountNumber   " + "ReceiverAccountNumber   " + 
-                                  "Type   " + "Amount   " + "Fee   " + "Message   " + "CreateAt   " + "UpdatedAt   " + "Status   ");                if (currentPageIndex != pageNumber)
+                                  "Type   " + "Amount   " + "Fee   " + "Message   " + "CreateAt   " + "UpdatedAt   " + "Status   ");                
+                if (currentPageIndex != pageNumber)
                 {
                     for (int j = (currentPageIndex-1)*10; j < currentPageIndex*10; j++)
                     {
