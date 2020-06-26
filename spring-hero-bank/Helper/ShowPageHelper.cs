@@ -103,7 +103,7 @@ namespace spring_hero_bank.Helper
                 }
                 if (keyB == ConsoleKey.Escape)
                 {
-                    GuestMenu.GenerateGuestMenu();
+                    AdminMenu.GenerateAdminMenu();
                     break;
                 }
             }
@@ -208,7 +208,14 @@ namespace spring_hero_bank.Helper
                 }
                 if (keyB == ConsoleKey.Escape)
                 {
-                    GuestMenu.GenerateGuestMenu();
+                    if ((int)Program.currentLogin.Role == 1)
+                    {
+                        UserMenu.GenerateGuestMenu();
+                    }
+                    else
+                    {
+                        AdminMenu.GenerateAdminMenu();
+                    }
                     break;
                 }
             }
