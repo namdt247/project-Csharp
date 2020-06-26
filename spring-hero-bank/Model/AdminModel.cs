@@ -81,8 +81,7 @@ namespace spring_hero_bank.Model
                     };
                     listTran.Add(transaction);
                 }
-
-                Console.WriteLine("vao");
+                
                 cnn.Close();
             }
             catch (Exception e)
